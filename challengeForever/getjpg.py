@@ -20,7 +20,7 @@ def Schedule(blocknum,blocksize,totalsize):
 #该函数用于在获取的整个页面中筛选需要的图片连接
 def getImage(html):
     error_time=0
-    reg=r'src="(.+)?\.jpg" pic_ext'
+    reg=r'src="(\S+)?\.jpg" pic_ext'
     #该方法把正则表达式编译成一个正则表达式对象
     imgre=re.compile(reg)   
     #读取html中包含imgre（正则表达式）的数据
@@ -33,7 +33,8 @@ def getImage(html):
         time.sleep(1)
         try:
             for imgurl in imglist:
-                urllib.urlretrieve(imgurl,'%s.jpg' % x,Schedule)
+                print "%d %s" % (x,imgurl)
+                urllib.urlretrieve(imgurl+'.jpg','%s.jpg' % x,Schedule)
                 x+=1
         except:
             error_time+=1
@@ -49,6 +50,4 @@ def getImage(html):
 
     
 html=getHtml('http://tieba.baidu.com/p/2460150866')
-print getImage(html)
-
-
+getImage(html)
